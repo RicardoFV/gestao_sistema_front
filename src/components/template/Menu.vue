@@ -1,6 +1,8 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <router-link class="navbar-brand" to="/home">Gestao de Sistemas</router-link>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light" v-if="isTelaLogin">
+    <router-link class="navbar-brand" to="/home"
+      >Gestao de Sistemas</router-link
+    >
     <button
       class="navbar-toggler"
       type="button"
@@ -23,29 +25,53 @@
             data-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false"
-          >Cadastros</a>
+            >Cadastros</a
+          >
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <router-link to="administrador" class="dropdown-item" href="#">Administrador</router-link>
-            <router-link to="contrato" class="dropdown-item" href="#">Contratos</router-link>
-            <router-link to="empresa" class="dropdown-item" href="#">Empresa</router-link>
-            <router-link to="/cad_usuario" class="dropdown-item" href="#">Usuário</router-link>
-            
+            <router-link to="/cad_requisito" class="dropdown-item" href="#"
+              >Requisito</router-link
+            >
+            <router-link to="/cad_sistema" class="dropdown-item" href="#"
+              >Sistema</router-link
+            >
+            <router-link to="/cad_tratamento" class="dropdown-item" href="#"
+              >Tratamento</router-link
+            >
+            <router-link to="/cad_usuario" class="dropdown-item" href="#"
+              >Usuário</router-link
+            >
+            <router-link to="/cad_versao" class="dropdown-item" href="#"
+              >Versão</router-link
+            >
           </div>
         </li>
-        
+
         <li class="nav-item">
           <a class="nav-link" href="#">Destaques</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Preços</a>
         </li>
-        
       </ul>
     </div>
+    <ul>
+      <li class="nav-item">
+        <router-link to="/sair" class="dropdown-item" href="#"
+          >Sair</router-link
+        >
+      </li>
+    </ul>
   </nav>
 </template>
 
 <script>
+export default {
+  computed: {
+    isTelaLogin() {
+      return this.$route.path !== "/" && this.$route.path !== "/sair";
+    },
+  },
+};
 </script>
 
 <style>
