@@ -1,11 +1,10 @@
 <template>
   <div class="container">
     <div class="row">
-      
       <div class="col-sm-12 row d-flex justify-content-center login ml-1">
         <div class="card">
           <div class="card-header">
-            <titulo titulo="Bem vindo ao Gestão de Sistemas"  />
+            <titulo titulo="Bem vindo ao Gestão de Sistemas" />
           </div>
           <div class="card-body">
             <form>
@@ -32,33 +31,39 @@
                 </div>
               </div>
               <div class="mb-2 d-flex justify-content-end">
-                <router-link class="btn btn-primary mr-2 btn-sm" to="">Esqueci minha senha</router-link>
+                <router-link class="btn btn-primary mr-2 btn-sm" to=""
+                  >Esqueci minha senha</router-link
+                >
+                <!--
                 <router-link class="btn btn-primary btn-sm" to="/cad_usuario">Cadastre-se</router-link>
-                
+                -->
               </div>
               <div class="form-group">
-                <botao tipo="submit" acao="Acessar" desing="btn btn-block btn-success"/>
+                <botao
+                  tipo="submit"
+                  acao="Acessar"
+                  desing="btn btn-block btn-success"
+                />
               </div>
             </form>
           </div>
         </div>
       </div>
-
-      
     </div>
   </div>
 </template>
 
 <script>
-import titulo from '../../template/Titulo'
-import botao from '../../template/Botao'
+import titulo from "../../template/Titulo";
+import botao from "../../template/Botao";
 export default {
-  components :{titulo, botao}
-}
+  components: { titulo, botao },
+  data() {
+    return {};
+  },
+  methods: {},
+  created(){
+
+  }
+};
 </script>
-    
-<style>
-.login {
-  margin-top: 8%;
-}
-</style>

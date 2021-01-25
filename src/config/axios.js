@@ -8,7 +8,8 @@ Vue.use({
         // criando a conexao
         Vue.prototype.$http = axios.create({
             // url base
-            baseURL: '',
+            baseURL: 'http://localhost:8181/',
+            // cabecalho
             headers: {
                 'Content-Type': 'application/json;charset=utf-8;multipart/form-data;'
             }
