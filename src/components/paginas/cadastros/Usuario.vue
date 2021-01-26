@@ -35,7 +35,15 @@
       <hr />
 
       <div class="card-body" v-if="mostrar">
-        <form @submit.prevent="cadastrar()">
+        <form @submit.prevent="cadastrar()" @submit="validar()">
+
+        <p v-if="erros.length">
+          <b>Por Favor corriga os seguinte(s) erro(s) :</b>
+          <ul>
+            <li v-for="erro in erros">{{ erro }}</li>
+          </ul>
+        </p>
+          
           <div class="form-check mb-2">
             <input
               class="form-check-input"
@@ -158,39 +166,40 @@ export default {
     return {
       mostrar: false,
       user: new Usuario(),
+      erros :[] 
     };
   },
   methods: {
     cadastrar() {
-     
-      if (this.validar(this.user) === true) {
-         console.log(this.user);
+      if (this.validar() === true) {
+        // passa os dados para a persistencia
+        this.$http.post("/usuario", this.user).then(res => {
+            console.log(res)
+        })
+       // this.userP.cadastrar(this.user)
       }
     },
 
-    validar(usuario) {
-      let dados = true;
-      if (usuario.senha !== usuario.repetir_senha) {
-        alert("As senhas digitadas não conferem !");
+    // valida as informaçoes 
+    validar() {
+      if ($('#nome').val() === "" || $('#nome').val() === null) {
+        this.erros.push('O campo nome nao pode ser vazio !')
         dados = false;
-        return dados
       }
-      if (usuario.senha === "" || usuario.repetir_senha==="") {
-        alert("Campos não podem der vazios !");
+      if ($('#email').val() === "" || $('#nome').val() === null) {
+        this.erros.push('O campo E-mail nao pode ser vazio !')
         dados = false;
-        return dados
       }
-      if (usuario.nome === "" ||  usuario.nome === null) {
-        alert("Campos não podem der vazios !");
+       let dados = true;
+      if ($('#senha').val()  !== $('#repetir_senha').val()) {
+        this.erros.push('As senhas digitadas não conferem !')
         dados = false;
-        return dados
       }
-      if (usuario.email === "" ) {
-        alert("Campos não podem der vazios !");
+      if ($('#senha').val() === "" || $('#repetir_senha').val() === "") {
+        this.erros.push('As Senhas não podem ser vazio !')
         dados = false;
-        return dados
       }
-        return dados
+      return dados;
     },
   },
   created() {

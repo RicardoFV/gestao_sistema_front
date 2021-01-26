@@ -3,7 +3,7 @@ import App from './App.vue'
 
 // importando o router de forma global
 import router from './config/router'
-import axios from './config/axios'
+import './config/axios'
 
 Vue.config.productionTip = false
 
