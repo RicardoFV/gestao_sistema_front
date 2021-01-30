@@ -1,7 +1,13 @@
 export default class AutenticarP {
 
+    constructor(resource) {
+        this._resource = resource('autenticar{/id}')
+    }
     login(usuario) {
-
+        //realiza a altenticaçao 
+        return this._resource.save(usuario).then(null, erro => {
+            console.log(erro)
+        })
     }
 
     sair() {

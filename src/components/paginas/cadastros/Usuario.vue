@@ -166,44 +166,40 @@ export default {
     return {
       mostrar: false,
       user: new Usuario(),
-      erros :[] 
+      erros: [],
     };
   },
   methods: {
     cadastrar() {
       if (this.validar() === true) {
-        // passa os dados para a persistencia
-        this.$http.post("/usuario", this.user).then(res => {
-            console.log(res)
-        })
-       // this.userP.cadastrar(this.user)
+        this.userP.cadastrar(this.user);
       }
     },
 
-    // valida as informaçoes 
+    // valida as informaçoes
     validar() {
-      if ($('#nome').val() === "" || $('#nome').val() === null) {
-        this.erros.push('O campo nome nao pode ser vazio !')
+      if ($("#nome").val() === "" || $("#nome").val() === null) {
+        this.erros.push("O campo nome nao pode ser vazio !");
         dados = false;
       }
-      if ($('#email').val() === "" || $('#nome').val() === null) {
-        this.erros.push('O campo E-mail nao pode ser vazio !')
+      if ($("#email").val() === "" || $("#nome").val() === null) {
+        this.erros.push("O campo E-mail nao pode ser vazio !");
         dados = false;
       }
-       let dados = true;
-      if ($('#senha').val()  !== $('#repetir_senha').val()) {
-        this.erros.push('As senhas digitadas não conferem !')
+      let dados = true;
+      if ($("#senha").val() !== $("#repetir_senha").val()) {
+        this.erros.push("As senhas digitadas não conferem !");
         dados = false;
       }
-      if ($('#senha').val() === "" || $('#repetir_senha').val() === "") {
-        this.erros.push('As Senhas não podem ser vazio !')
+      if ($("#senha").val() === "" || $("#repetir_senha").val() === "") {
+        this.erros.push("As Senhas não podem ser vazio !");
         dados = false;
       }
       return dados;
     },
   },
   created() {
-    this.userP = new Persistencia();
+    this.userP = new Persistencia(this.$resource);
   },
 };
 </script>
