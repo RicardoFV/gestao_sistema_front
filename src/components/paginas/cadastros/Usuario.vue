@@ -35,7 +35,7 @@
       <hr />
 
       <div class="card-body" v-if="mostrar">
-        <form @submit.prevent="cadastrar()" @submit="validar()">
+        <form @submit.prevent="cadastrar()">
 
         <p v-if="erros.length">
           <b>Por Favor corriga os seguinte(s) erro(s) :</b>

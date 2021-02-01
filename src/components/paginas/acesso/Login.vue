@@ -7,7 +7,7 @@
             <titulo titulo="Bem vindo ao Gestão de Sistemas" />
           </div>
           <div class="card-body">
-            <form>
+            <form @submit.prevent="autenticar()">
               <div class="form-row">
                 <div class="form-group col-sm-12">
                   <label for="email">E-mail</label>
@@ -16,6 +16,7 @@
                     type="text"
                     name="email"
                     id="email"
+                    v-model="auth.email"
                     placeholder="Digite seu E-mail"
                   />
                 </div>
@@ -26,6 +27,7 @@
                     type="password"
                     name="senha"
                     id="senha"
+                    v-model="auth.senha"
                     placeholder="Digite sua Senha"
                   />
                 </div>
@@ -56,14 +58,52 @@
 <script>
 import titulo from "../../template/Titulo";
 import botao from "../../template/Botao";
+import Persistencia from "../../../persistencia/AutenticarP";
+import Autenticacao from "../../../model/AutenticacaoM";
+
 export default {
   components: { titulo, botao },
   data() {
-    return {};
+    return {
+      auth: new Autenticacao(),
+      url: "http://localhost:8181/autenticar",
+    };
   },
-  methods: {},
-  created(){
+  methods: {
+    // gera a autenticacao
+    autenticar() {
+      // chama gerarSessao
+      this.gerarSessao();
+      // criar sessao
+      this.criarSessao();
+      // passa a sessao para o objeto
+      this.auth.sessao = sessionStorage.getItem("usuario_ativo");
 
-  }
+      let dados = this.authP.login(this.auth);
+
+     // console.log(JSON.stringify(dados))
+      // faz a insserçao da autenticaçao
+      /*
+      if (this.authP.login(this.auth)) {
+        alert("deu certo");
+      } else {
+        alert("erro");
+      }
+      */
+    },
+
+    // gera uma sessao de numeros interiros aleatorios
+    gerarSessao() {
+      return Math.floor(Math.random() * 999999999);
+    },
+    // cria uma sessao que ficara fixa enquanto o navegador estiver aberto
+    criarSessao() {
+      let sessao = this.gerarSessao();
+      sessionStorage.setItem("usuario_ativo", sessao);
+    },
+  },
+  created() {
+    this.authP = new Persistencia(this.$resource);
+  },
 };
 </script>

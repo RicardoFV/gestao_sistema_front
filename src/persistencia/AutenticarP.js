@@ -5,9 +5,10 @@ export default class AutenticarP {
     }
     login(usuario) {
         //realiza a altenticaçao 
-        return this._resource.save(usuario).then(null, erro => {
-            console.log(erro)
-        })
+        return this._resource.save(usuario).then(
+            (e) => {},
+            erro => {}
+        )
     }
 
     sair() {
