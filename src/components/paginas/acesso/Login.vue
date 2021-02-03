@@ -7,7 +7,7 @@
             <titulo titulo="Bem vindo ao Gestão de Sistemas" />
           </div>
           <div class="card-body">
-            <form @submit.prevent="autenticar()">
+            <form @submit.prevent="autenticar">
               <div class="form-row">
                 <div class="form-group col-sm-12">
                   <label for="email">E-mail</label>
@@ -66,7 +66,6 @@ export default {
   data() {
     return {
       auth: new Autenticacao(),
-      url: "http://localhost:8181/autenticar",
     };
   },
   methods: {
@@ -79,17 +78,15 @@ export default {
       // passa a sessao para o objeto
       this.auth.sessao = sessionStorage.getItem("usuario_ativo");
 
-      let dados = this.authP.login(this.auth);
-
-     // console.log(JSON.stringify(dados))
-      // faz a insserçao da autenticaçao
-      /*
-      if (this.authP.login(this.auth)) {
-        alert("deu certo");
-      } else {
-        alert("erro");
+      // verifica o retorno se e 201 ou 405
+      // se for 201, realiza a autenticaçao 
+      if(this.authP.login(this.auth) == 201){
+        this.$router.push('/home')
+        // se for 405 volta pra pagina
+      }else if(this.authP.login(this.auth) == 405){
+        alert('Usuário e/ou senha invalida!')
       }
-      */
+
     },
 
     // gera uma sessao de numeros interiros aleatorios

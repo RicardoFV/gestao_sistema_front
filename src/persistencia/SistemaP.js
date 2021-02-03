@@ -11,7 +11,7 @@ export default class SistemaP {
             })
         } else {
             //altera
-            return this._resource.uupdate({ id: sistema.id }, sistema)
+            return this._resource.update({ id: sistema.id }, sistema)
         }
     }
     consultar(id) {
