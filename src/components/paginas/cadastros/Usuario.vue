@@ -138,16 +138,33 @@
 
       <!-- criação da tabela  -->
       <div class="container" v-else>
-        <table class="table">
+        <table class="table table-hover table-sm">
           <thead class="text-center">
             <tr>
               <th scope="col">Codigo</th>
               <th scope="col">Nome</th>
               <th scope="col">E-mail</th>
               <th scope="col">Perfil</th>
+              <th scope="col">Dt Inclusão</th>
               <th scope="col">Ações</th>
             </tr>
           </thead>
+          <tbody v-for="user of usuarios">
+            <tr class="text-center">
+              <td>{{user.id}}</td>
+              <td>{{user.name}}</td>
+              <td>{{user.email}}</td>
+              <td>{{user.perfil_acesso}}</td>
+              <td>{{user.dt_inclusao }}</td>
+              <td>
+               
+                  <botao tipo="submit" acao="Alterar" desing="btn btn-sm btn-info"></botao>
+                  <botao tipo="submit" acao="Alterar" desing="btn btn-sm btn-danger"></botao>
+                
+              </td>
+            </tr>
+
+          </tbody>
         </table>
       </div>
     </div>
@@ -167,13 +184,22 @@ export default {
       mostrar: false,
       user: new Usuario(),
       erros: [],
+      usuarios: [],
     };
   },
   methods: {
     cadastrar() {
       if (this.validar() === true) {
         this.userP.cadastrar(this.user);
+        // limpa as informaçoes
+        this.limparDados();
+        // leva para a tela de listar
+        this.mostrar = false;
       }
+    },
+    // metodo que limpa as informaçoes
+    limparDados() {
+      this.user = new Usuario();
     },
 
     // valida as informaçoes
@@ -197,9 +223,17 @@ export default {
       }
       return dados;
     },
+
   },
+
   created() {
+    // instancia a persistencia
     this.userP = new Persistencia(this.$resource);
+    // chama o metodo listar
+    this.userP.listar().then(
+      (dados) => (this.usuarios = dados),
+      (err) => {}
+    );
   },
 };
 </script>

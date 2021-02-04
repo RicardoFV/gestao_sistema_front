@@ -55,7 +55,7 @@
 
       <!-- criação da tabela  -->
       <div class="container" v-else>
-        <table class="table">
+        <table class="table table-hover table-sm">
           <thead class="text-center">
             <tr>
               <th scope="col">Codigo</th>
