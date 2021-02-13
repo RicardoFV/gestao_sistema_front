@@ -129,11 +129,7 @@
           </div>
 
           <div class="form-group">
-            <botao
-              tipo="submit"
-              acao="Cadastrar"
-              desing="btn btn-block btn-success"
-            />
+            <button type="submit" class="btn btn-block btn-success">{{acao}}</button>
           </div>
         </form>
       </div>
@@ -189,7 +185,7 @@ export default {
       user: new Usuario(),
       erros: [],
       usuarios: [],
-     // id:this.$route.params.id
+      acao  :'Cadastrar'
     };
   },
   methods: {
@@ -215,7 +211,8 @@ export default {
     let id = e
       // usando o metodo de consulta
     this.userP.consultar(id).then(u => this.user = u)
-    
+    // passa a senha para o repetir_senha
+    $("#repetir_senha").val(this.user.senha)
     this.mostrar = true;
 
     }, 

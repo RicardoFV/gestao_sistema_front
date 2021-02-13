@@ -10,7 +10,8 @@ import VueResource from 'vue-resource';
 // REGISTRANDO DE FORMA GLOBAL O VUERESOURCE
 Vue.use(VueResource)
     // trantando o link da aplicação padrao
-Vue.http.options.root = 'http://localhost:8181';
+//Vue.http.options.root = 'http://localhost:8181';
+Vue.http.options.root = 'http://10.0.0.104:8181';
 
 new Vue({
     router: router,
