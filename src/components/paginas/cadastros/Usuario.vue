@@ -3,6 +3,7 @@
     <div class="card mt-2">
       <div class="card-header">
         <titulo titulo="Usuario" />
+         
       </div>
       <div class="form-row col-sm-12">
         <div class="form-group col-sm-6 d-flex inline mt-3">
@@ -20,7 +21,7 @@
         <div class="form-group col-sm-6 d-flex inline mt-3">
           <button
             class="btn btn-primary col-sm-4 btn-sm mr-1"
-            @click="mostrar = !mostrar"
+            @click="novo()"
           >
             {{ mostrar ? "Ver" : "Novo" }}
           </button>
@@ -37,6 +38,7 @@
       <div class="card-body" v-if="mostrar">
         <form @submit.prevent="cadastrar()">
 
+         
         <p v-if="erros.length">
           <b>Por Favor corriga os seguinte(s) erro(s) :</b>
           <ul>
@@ -65,7 +67,7 @@
                 class="form-control"
                 name="codigo"
                 readonly
-                v-model="user.codigo"
+                v-model="user.id"
               />
             </div>
             <div class="form-group col-sm-4">
@@ -76,7 +78,7 @@
                 name="nome"
                 class="form-control"
                 placeholder="Digite o nome"
-                v-model="user.nome"
+                v-model="user.name"
               />
             </div>
             <div class="form-group col-sm-4">
@@ -157,9 +159,11 @@
               <td>{{user.perfil_acesso}}</td>
               <td>{{user.dt_inclusao }}</td>
               <td>
-               
-                  <botao tipo="submit" acao="Alterar" desing="btn btn-sm btn-info"></botao>
-                  <botao tipo="submit" acao="Alterar" desing="btn btn-sm btn-danger"></botao>
+                <button type="button" class="btn btn-sm btn-primary" v-on:click="consultar(user.id)">Consultar</button>
+
+                  
+
+                  <botao tipo="submit" acao="Deletar" desing="btn btn-sm btn-danger"></botao>
                 
               </td>
             </tr>
@@ -185,9 +189,14 @@ export default {
       user: new Usuario(),
       erros: [],
       usuarios: [],
+     // id:this.$route.params.id
     };
   },
   methods: {
+    novo(){
+      this.limparDados()
+      this.mostrar = ! this.mostrar
+    },
     cadastrar() {
       if (this.validar() === true) {
         this.userP.cadastrar(this.user);
@@ -200,7 +209,16 @@ export default {
     // metodo que limpa as informaçoes
     limparDados() {
       this.user = new Usuario();
-    },
+    },  
+
+    consultar(e){
+    let id = e
+      // usando o metodo de consulta
+    this.userP.consultar(id).then(u => this.user = u)
+    
+    this.mostrar = true;
+
+    }, 
 
     // valida as informaçoes
     validar() {
@@ -234,6 +252,8 @@ export default {
       (dados) => (this.usuarios = dados),
       (err) => {}
     );
+
+    
   },
 };
 </script>

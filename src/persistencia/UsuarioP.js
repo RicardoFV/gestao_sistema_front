@@ -19,7 +19,7 @@ export default class UsuarioP {
 
     consultar(id) {
         return this._resource.get({ id }).then(resposta => resposta.json(), err => {
-            console.log(err)
+            //console.log(err)
         })
     }
     deletar(id) {

@@ -2,9 +2,9 @@
 export default class UsuarioM {
 
     // criando o construtor
-    constructor(id, nome, email, senha, repetir_senha, perfil_acesso, situacao) {
+    constructor(id, name, email, senha, repetir_senha, perfil_acesso, situacao) {
         this.id = id;
-        this.nome = nome
+        this.name = name
         this.email = email
         this.senha = senha
         this.repetir_senha = repetir_senha
