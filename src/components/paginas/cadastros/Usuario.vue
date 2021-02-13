@@ -71,11 +71,11 @@
               />
             </div>
             <div class="form-group col-sm-4">
-              <label for="nome">Nome</label>
+              <label for="name">Nome</label>
               <input
                 type="text"
-                id="nome"
-                name="nome"
+                id="name"
+                name="name"
                 class="form-control"
                 placeholder="Digite o nome"
                 v-model="user.name"
@@ -185,11 +185,13 @@ export default {
       user: new Usuario(),
       erros: [],
       usuarios: [],
-      acao  :'Cadastrar'
+      acao:''
     };
   },
   methods: {
     novo(){
+      
+      this.acao = 'Cadastrar'
       this.limparDados()
       this.mostrar = ! this.mostrar
     },
@@ -212,14 +214,15 @@ export default {
       // usando o metodo de consulta
     this.userP.consultar(id).then(u => this.user = u)
     // passa a senha para o repetir_senha
-    $("#repetir_senha").val(this.user.senha)
+    this.user.repetir_senha = this.user.senha
+    this.acao ='Atualizar'
     this.mostrar = true;
 
     }, 
 
     // valida as informaçoes
     validar() {
-      if ($("#nome").val() === "" || $("#nome").val() === null) {
+      if ($("#name").val() === "" || $("#name").val() === null) {
         this.erros.push("O campo nome nao pode ser vazio !");
         dados = false;
       }
