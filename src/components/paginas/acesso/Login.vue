@@ -40,12 +40,9 @@
                 <router-link class="btn btn-primary btn-sm" to="/cad_usuario">Cadastre-se</router-link>
                 -->
               </div>
+              
               <div class="form-group">
-                <botao
-                  tipo="submit"
-                  acao="Acessar"
-                  desing="btn btn-block btn-success"
-                />
+               <button class="btn btn-block btn-success">Acessar</button>
               </div>
             </form>
           </div>

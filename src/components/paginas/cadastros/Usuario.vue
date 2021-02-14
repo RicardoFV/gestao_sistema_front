@@ -46,16 +46,18 @@
           </ul>
         </p>
           
-          <div class="form-check mb-2">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value="1"
-              v-model="user.situacao"
-            />
-            <label class="form-check-label" type="checkbox" value="0">
-              Ativo
-            </label>
+          <div class="form-group col-sm-2">
+
+            <label for="situacao">Situação</label>
+              <select
+                class="form-control"
+                v-model="user.situacao"
+                name="perfil_acesso"
+                id="situacao"
+              >
+                <option value="ativado">Ativado</option>
+                <option value="desativado">Desativado</option>
+              </select>  
           </div>
 
           <div class="form-row">
@@ -101,7 +103,7 @@
                 id="perfil_acesso"
               >
                 <option value="adm">Administrador</option>
-                <option value="user">Usúario</option>
+                <option value="user" >Usúario</option>
               </select>
             </div>
             <div class="form-group col-sm-3">
@@ -156,10 +158,7 @@
               <td>{{user.dt_inclusao }}</td>
               <td>
                 <button type="button" class="btn btn-sm btn-primary" v-on:click="consultar(user.id)">Consultar</button>
-
-                  
-
-                  <botao tipo="submit" acao="Deletar" desing="btn btn-sm btn-danger"></botao>
+                <botao tipo="submit" acao="Deletar" desing="btn btn-sm btn-danger"></botao>
                 
               </td>
             </tr>
@@ -196,17 +195,23 @@ export default {
       this.mostrar = ! this.mostrar
     },
     cadastrar() {
+      this.limparErros() 
       if (this.validar() === true) {
         this.userP.cadastrar(this.user);
         // limpa as informaçoes
         this.limparDados();
         // leva para a tela de listar
         this.mostrar = false;
+        document.location.reload(true)
       }
+    },
+    limparErros(){
+       this.erros = []
     },
     // metodo que limpa as informaçoes
     limparDados() {
-      this.user = new Usuario();
+      this.user = new Usuario(); 
+      this.limparErros  
     },  
 
     consultar(e){
@@ -214,7 +219,6 @@ export default {
       // usando o metodo de consulta
     this.userP.consultar(id).then(u => this.user = u)
     // passa a senha para o repetir_senha
-    this.user.repetir_senha = this.user.senha
     this.acao ='Atualizar'
     this.mostrar = true;
 
@@ -239,11 +243,18 @@ export default {
         this.erros.push("As Senhas não podem ser vazio !");
         dados = false;
       }
+      if (document.getElementById('situacao').value == "") {
+        this.erros.push("Situacao não pode ser vazio");
+        dados = false;
+      }
+     if (document.getElementById('perfil_acesso').value == "") {
+        this.erros.push("Perfil de acesso não pode ser vazio");
+        dados = false;
+      }
       return dados;
     },
 
   },
-
   created() {
     // instancia a persistencia
     this.userP = new Persistencia(this.$resource);

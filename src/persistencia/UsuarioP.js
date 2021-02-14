@@ -13,7 +13,7 @@ export default class UsuarioP {
             })
         } else {
             //altera
-            return this._resource.uupdate({ id: usuario.id }, usuario)
+            return this._resource.update({ id: usuario.id }, usuario)
         }
     }
 
