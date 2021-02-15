@@ -26,7 +26,9 @@ export default new Router({
         {
             path: '/cad_usuario',
             component: Usuario,
-            name: 'cadastro_usuario'
+            name: 'cadastro_usuario',
+            titulo:'Usuario',
+            params:true
         },
         {
             path: '/home',

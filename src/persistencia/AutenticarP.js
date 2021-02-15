@@ -4,7 +4,7 @@ export default class AutenticarP {
         this._resource = resource('autenticar{/id}')
     }
 
-    login(usuario) {
+    login(usuario) { 
         status
         //realiza a altenticaçao 
         this._resource.save(usuario).then(

@@ -23,11 +23,11 @@ export default class UsuarioP {
         })
     }
     deletar(id) {
-        if (id !== 0) {
-            return this._resource.delete({ id }).then(null, err => {
-                console.log(err)
-            })
-        }
+
+        return this._resource.delete({ id }).then(null,  err => {
+            console.log(err)
+        })
+
     }
     listar() {
         return this._resource.query().then(resposta => resposta.json(), err => {

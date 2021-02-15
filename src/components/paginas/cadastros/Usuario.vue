@@ -157,8 +157,9 @@
               <td>{{user.perfil_acesso}}</td>
               <td>{{user.dt_inclusao }}</td>
               <td>
-                <button type="button" class="btn btn-sm btn-primary" v-on:click="consultar(user.id)">Consultar</button>
-                <botao tipo="submit" acao="Deletar" desing="btn btn-sm btn-danger"></botao>
+                
+                <button type="button" class="btn btn-sm btn-primary" @click="consultar(user.id)">Consultar</button>
+                <button type="button" class="btn btn-sm btn-danger" @click="deletar(user.id)">Deletar</button>
                 
               </td>
             </tr>
@@ -173,7 +174,7 @@
 <script>
 import titulo from "../../template/Titulo";
 import botao from "../../template/Botao";
-import Usuario from "../../../model/UsuarioM";
+import UsuarioM from "../../../model/UsuarioM";
 import Persistencia from "../../../persistencia/UsuarioP";
 
 export default {
@@ -181,48 +182,61 @@ export default {
   data() {
     return {
       mostrar: false,
-      user: new Usuario(),
+      user: new UsuarioM(),
       erros: [],
       usuarios: [],
-      acao:''
+      acao: "",
     };
   },
   methods: {
-    novo(){
-      
-      this.acao = 'Cadastrar'
-      this.limparDados()
-      this.mostrar = ! this.mostrar
+    // novo cadastro
+    novo() {
+      this.acao = "Cadastrar";
+      this.limparDados();
+      this.mostrar = !this.mostrar;
     },
+    // cadastra ou altera um usuario
     cadastrar() {
-      this.limparErros() 
+      this.limparErros();
       if (this.validar() === true) {
         this.userP.cadastrar(this.user);
         // limpa as informaçoes
         this.limparDados();
         // leva para a tela de listar
         this.mostrar = false;
-        document.location.reload(true)
+        // atualiza a lista de usuarios
+        document.location.reload(true);
       }
     },
-    limparErros(){
-       this.erros = []
+    // limpa os erros
+    limparErros() {
+      this.erros = [];
     },
     // metodo que limpa as informaçoes
     limparDados() {
-      this.user = new Usuario(); 
-      this.limparErros  
-    },  
-
-    consultar(e){
-    let id = e
+      this.user = new UsuarioM();
+      this.limparErros;
+    },
+    // consulta as informações
+    consultar(e) {
+      let id = e;
       // usando o metodo de consulta
-    this.userP.consultar(id).then(u => this.user = u)
-    // passa a senha para o repetir_senha
-    this.acao ='Atualizar'
-    this.mostrar = true;
-
-    }, 
+      this.userP.consultar(id).then((u) => (this.user = u));
+      // passa a senha para o repetir_senha
+      this.acao = "Atualizar";
+      this.mostrar = true;
+    },
+    // deleta as informações
+    deletar(e) {
+      let id = e;
+      // deletando as informaçoes 
+      if (this.userP.deletar(id)) {
+        // leva para a tela de listar
+        this.mostrar = false;
+        // atualiza a lista de usuarios
+        document.location.reload(true);
+      }
+    },
 
     // valida as informaçoes
     validar() {
@@ -243,17 +257,16 @@ export default {
         this.erros.push("As Senhas não podem ser vazio !");
         dados = false;
       }
-      if (document.getElementById('situacao').value == "") {
+      if (document.getElementById("situacao").value == "") {
         this.erros.push("Situacao não pode ser vazio");
         dados = false;
       }
-     if (document.getElementById('perfil_acesso').value == "") {
+      if (document.getElementById("perfil_acesso").value == "") {
         this.erros.push("Perfil de acesso não pode ser vazio");
         dados = false;
       }
       return dados;
     },
-
   },
   created() {
     // instancia a persistencia
@@ -263,8 +276,6 @@ export default {
       (dados) => (this.usuarios = dados),
       (err) => {}
     );
-
-    
   },
 };
 </script>
