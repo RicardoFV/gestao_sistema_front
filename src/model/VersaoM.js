@@ -1,8 +1,9 @@
 // criando a classe
 export default class VersaoM {
 
-    constructor(sessao, nome) {
+    constructor(id,sessao, name) {
+        this.id = id
         this.sessao = sessao
-        this.nome = nome
+        this.name = name
     }
 }

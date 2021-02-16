@@ -18,10 +18,7 @@
           />
         </div>
         <div class="form-group col-sm-6 d-flex inline mt-3">
-          <button
-            class="btn btn-primary col-sm-4 btn-sm mr-1"
-            @click="mostrar = !mostrar"
-          >
+          <button class="btn btn-primary col-sm-4 btn-sm mr-1" @click="novo()">
             {{ mostrar ? "Ver" : "Novo" }}
           </button>
           <botao
@@ -35,7 +32,7 @@
       <hr />
 
       <div class="card-body" v-if="mostrar">
-        <form>
+        <form @submit.prevent="cadastrar()">
           <div class="form-row mb-2">
             <div class="form-group col-sm-1">
               <label for="codigo">Código</label>
@@ -44,6 +41,7 @@
                 id="codigo"
                 class="form-control"
                 name="codigo"
+                v-model="versao.id"
                 readonly
               />
             </div>
@@ -52,20 +50,19 @@
               <label for="nome">Nome</label>
               <input
                 type="text"
-                id="nome"
-                name="nome"
+                id="name"
+                name="name"
                 class="form-control"
                 placeholder="Digite o nome"
+                v-model="versao.name"
               />
             </div>
           </div>
 
           <div class="form-group">
-            <botao
-              tipo="submit"
-              acao="Cadastrar"
-              desing="btn btn-block btn-success"
-            />
+            <button type="button" class="btn btn-block btn-success">
+              {{ acao }}
+            </button>
           </div>
         </form>
       </div>
@@ -89,12 +86,63 @@
 <script>
 import titulo from "../../template/Titulo";
 import botao from "../../template/Botao";
+import Persistencia from "../../../persistencia/UsuarioP";
+import VersaoM from "../../../model/VersaoM";
 export default {
   components: { titulo, botao },
   data() {
     return {
       mostrar: false,
+      versao: new VersaoM(),
+      acao: "",
+      erros: [],
     };
+  },
+  methods: {
+    // novo cadastro
+    novo() {
+      this.acao = "Cadastrar";
+      this.limparDados();
+      this.mostrar = !this.mostrar;
+    },
+    // limpar tela
+    limparDados() {
+      this.versao = new VersaoM();
+      this.limparErros;
+    },
+    limparErros() {
+      this.erros = [];
+    },
+    // metodo que cadastra e altera dados
+    cadastrar() {
+      this.limparErros;
+      if (this.validar() === true) {
+        // passa a sessao para o objeto
+        this.versao.sessao = sessionStorage.getItem("usuario_ativo");
+        // cadastra as informações
+        console.log(this.versao)
+        this.versaoP.cadastrar(this.versao);
+        // limpa as informaçoes
+        this.limparDados();
+        // leva para a tela de listar
+        this.mostrar = false;
+        // atualiza a lista de versao
+        document.location.reload(true);
+      }
+    },
+    // valida as informaçoes
+    validar() {
+      var dados = true
+      if ($("#name").val() === "" || $("#name").val() === null) {
+        this.erros.push("O campo nome nao pode ser vazio !");
+        dados = false;
+      }
+      return dados;
+    },
+  },
+  created() {
+    // instancia a persistencia
+    this.versaoP = new Persistencia(this.$resource);
   },
 };
 </script>

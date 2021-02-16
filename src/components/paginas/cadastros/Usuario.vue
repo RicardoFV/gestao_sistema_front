@@ -240,6 +240,7 @@ export default {
 
     // valida as informaçoes
     validar() {
+     
       if ($("#name").val() === "" || $("#name").val() === null) {
         this.erros.push("O campo nome nao pode ser vazio !");
         dados = false;

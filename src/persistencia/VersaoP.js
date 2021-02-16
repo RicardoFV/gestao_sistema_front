@@ -12,7 +12,7 @@ export default class VersaoP {
             })
         } else {
             //altera
-            return this._resource.uupdate({ id: versao.id }, versao)
+            return this._resource.update({ id: versao.id }, versao)
         }
     }
     consultar(id) {

@@ -9,7 +9,7 @@ export default class UsuarioP {
         if (usuario.id == null || usuario.id == 0) {
 
             return this._resource.save(usuario).then(null, erro => {
-                console.log(erro)
+               // console.log(erro)
             })
         } else {
             //altera
