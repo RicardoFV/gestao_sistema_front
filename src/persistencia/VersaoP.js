@@ -8,13 +8,15 @@ export default class VersaoP {
         if (versao.id == null || versao.id == 0) {
 
             return this._resource.save(versao).then(null, erro => {
-                console.log(erro)
+                // console.log(erro)
             })
         } else {
             //altera
             return this._resource.update({ id: versao.id }, versao)
         }
     }
+
+
     consultar(id) {
         return this._resource.get({ id }).then(resposta => resposta.json(), err => {
             console.log(err)

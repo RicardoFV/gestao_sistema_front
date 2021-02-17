@@ -47,20 +47,20 @@
             </div>
 
             <div class="form-group col-sm-4">
-              <label for="nome">Nome</label>
+              <label for="name">Nome</label>
               <input
                 type="text"
                 id="name"
                 name="name"
                 class="form-control"
-                placeholder="Digite o nome"
+                placeholder="Digite a versão"
                 v-model="versao.name"
               />
             </div>
           </div>
 
           <div class="form-group">
-            <button type="button" class="btn btn-block btn-success">
+            <button type="submit" class="btn btn-block btn-success">
               {{ acao }}
             </button>
           </div>
@@ -86,8 +86,9 @@
 <script>
 import titulo from "../../template/Titulo";
 import botao from "../../template/Botao";
-import Persistencia from "../../../persistencia/UsuarioP";
 import VersaoM from "../../../model/VersaoM";
+import Persistencia from "../../../persistencia/VersaoP";
+
 export default {
   components: { titulo, botao },
   data() {
@@ -116,23 +117,23 @@ export default {
     // metodo que cadastra e altera dados
     cadastrar() {
       this.limparErros;
-      if (this.validar() === true) {
-        // passa a sessao para o objeto
+     if (this.validar() == true) {
         this.versao.sessao = sessionStorage.getItem("usuario_ativo");
-        // cadastra as informações
         console.log(this.versao)
+        
         this.versaoP.cadastrar(this.versao);
         // limpa as informaçoes
         this.limparDados();
         // leva para a tela de listar
         this.mostrar = false;
-        // atualiza a lista de versao
+        // atualiza a lista de usuarios
         document.location.reload(true);
+        
       }
     },
     // valida as informaçoes
     validar() {
-      var dados = true
+     var dados = true
       if ($("#name").val() === "" || $("#name").val() === null) {
         this.erros.push("O campo nome nao pode ser vazio !");
         dados = false;
