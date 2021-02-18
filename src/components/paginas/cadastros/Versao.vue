@@ -77,6 +77,16 @@
               <th scope="col">Ações</th>
             </tr>
           </thead>
+          <tbody v-for="v of versoes">
+            <tr>
+              <td>{{ v.id }}</td>
+              <td>{{ v.name }}</td>
+              <td>
+                <button>Consultar</button>
+                <button>Deletar</button>
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>
@@ -97,6 +107,7 @@ export default {
       versao: new VersaoM(),
       acao: "",
       erros: [],
+      versoes: [],
     };
   },
   methods: {
@@ -117,10 +128,10 @@ export default {
     // metodo que cadastra e altera dados
     cadastrar() {
       this.limparErros;
-     if (this.validar() == true) {
+      if (this.validar() == true) {
         this.versao.sessao = sessionStorage.getItem("usuario_ativo");
-        console.log(this.versao)
-        
+        console.log(this.versao);
+
         this.versaoP.cadastrar(this.versao);
         // limpa as informaçoes
         this.limparDados();
@@ -128,12 +139,11 @@ export default {
         this.mostrar = false;
         // atualiza a lista de usuarios
         document.location.reload(true);
-        
       }
     },
     // valida as informaçoes
     validar() {
-     var dados = true
+      var dados = true;
       if ($("#name").val() === "" || $("#name").val() === null) {
         this.erros.push("O campo nome nao pode ser vazio !");
         dados = false;
@@ -144,6 +154,11 @@ export default {
   created() {
     // instancia a persistencia
     this.versaoP = new Persistencia(this.$resource);
+    // listar
+    this.versaoP.listar().then(
+      (dados) => (this.versoes = dados),
+      (err) => {}
+    );
   },
 };
 </script>
