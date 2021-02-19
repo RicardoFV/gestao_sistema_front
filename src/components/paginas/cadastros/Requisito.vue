@@ -10,7 +10,7 @@
           <botao tipo="submit" acao="Consultar" desing="btn btn-secondary col-sm-4 btn-sm mr-5" />
         </div>
         <div class="form-group col-sm-6 d-flex inline mt-3">
-          <button class="btn btn-primary col-sm-4 btn-sm mr-1" @click="mostrar = !mostrar" >{{ mostrar ? 'Ver' : 'Novo' }}</button>
+          <button class="btn btn-primary col-sm-4 btn-sm mr-1" @click="novo()" >{{ mostrar ? 'Ver' : 'Novo' }}</button>
           <botao tipo="submit" acao="Deletar" desing="btn btn-danger col-4 btn-sm mr-1" />
         </div>
       </div>
@@ -48,7 +48,9 @@
           </div>
 
           <div class="form-group">
-            <botao tipo="submit" acao="Cadastrar" desing="btn btn-block btn-success" />
+            <button type="submit" class="btn btn-block btn-success">
+              {{ acao }}
+            </button>
           </div>
         </form>
       </div>
@@ -74,12 +76,30 @@
 <script>
 import titulo from "../../template/Titulo";
 import botao from "../../template/Botao";
+import Persistencia from "../../../persistencia/RequisitoP"
+import RequisitoM from "../../../model/RequisitoM"
+
 export default {
   components: { titulo, botao },
   data() {
     return {
-      mostrar: false
+      mostrar: false ,
+      requisito : new RequisitoM(),
+      acao: "",
+      erros: [],
     };
+  }, 
+
+  methods:{
+    novo(){
+      this.acao = "Cadastrar";
+      this.limparDados();
+      this.mostrar = !this.mostrar;
+    }, 
+
+    limparDados(){
+      
+    }
   }
 };
 </script>

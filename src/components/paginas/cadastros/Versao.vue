@@ -71,19 +71,19 @@
       <div class="container" v-else>
         <table class="table table-hover table-sm">
           <thead class="text-center">
-            <tr>
+            <tr >
               <th scope="col">Codigo</th>
               <th scope="col">Nome</th>
               <th scope="col">Ações</th>
             </tr>
           </thead>
           <tbody v-for="v of versoes">
-            <tr>
+            <tr class="text-center">
               <td>{{ v.id }}</td>
               <td>{{ v.name }}</td>
               <td>
-                <button>Consultar</button>
-                <button>Deletar</button>
+                <button type="button" class="btn btn-sm btn-primary" @click="consultar(v.id)">Consultar</button>
+                <button type="button" class="btn btn-sm btn-danger" @click="deletar(v.id)">Deletar</button>
               </td>
             </tr>
           </tbody>
@@ -150,6 +150,13 @@ export default {
       }
       return dados;
     },
+
+    consultar(e){
+
+    },
+    deletar(e){
+
+    }
   },
   created() {
     // instancia a persistencia
