@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="card mt-2">
+    <div class="card mt-5">
       <div class="card-header">
         <titulo titulo="Usuario" />
          

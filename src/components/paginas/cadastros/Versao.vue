@@ -33,6 +33,15 @@
 
       <div class="card-body" v-if="mostrar">
         <form @submit.prevent="cadastrar()">
+
+        <p v-if="erros.length">
+          <b>Por Favor corriga os seguinte(s) erro(s) :</b>
+          <ul>
+            <li v-for="erro in erros">{{ erro }}</li>
+          </ul>
+        </p>
+
+
           <div class="form-row mb-2">
             <div class="form-group col-sm-1">
               <label for="codigo">Código</label>
@@ -127,7 +136,7 @@ export default {
     },
     // metodo que cadastra e altera dados
     cadastrar() {
-      this.limparErros;
+      this.limparErros();
       if (this.validar() == true) {
         this.versao.sessao = sessionStorage.getItem("usuario_ativo");
         console.log(this.versao);
@@ -151,12 +160,8 @@ export default {
       return dados;
     },
 
-    consultar(e){
-
-    },
-    deletar(e){
-
-    }
+    consultar(e) {},
+    deletar(e) {},
   },
   created() {
     // instancia a persistencia

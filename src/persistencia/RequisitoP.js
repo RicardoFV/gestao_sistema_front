@@ -5,7 +5,7 @@ export default class RequisitoP {
 
     cadastrar(requisito) {
         // cadastra 
-        if (usuario.id == null || usuario.id == 0) {
+        if (requisito.id == null || requisito.id == 0) {
 
             return this._resource.save(requisito).then(null, erro => {
                 console.log(erro)
