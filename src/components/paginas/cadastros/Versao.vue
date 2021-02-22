@@ -160,8 +160,23 @@ export default {
       return dados;
     },
 
-    consultar(e) {},
-    deletar(e) {},
+    consultar(e) {
+       let id = e;
+      // usando o metodo de consulta
+      this.versaoP.consultar(id).then((v) => (this.versao = v));
+      this.acao = "Atualizar";
+      this.mostrar = true;
+    },
+    deletar(e) {
+       let id = e;
+      // deletando as informaçoes 
+      if (this.versaoP.deletar(id)) {
+        // leva para a tela de listar
+        this.mostrar = false;
+        // atualiza a lista de usuarios
+        document.location.reload(true);
+      }
+    },
   },
   created() {
     // instancia a persistencia

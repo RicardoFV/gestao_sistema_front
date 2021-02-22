@@ -222,7 +222,6 @@ export default {
       let id = e;
       // usando o metodo de consulta
       this.userP.consultar(id).then((u) => (this.user = u));
-      // passa a senha para o repetir_senha
       this.acao = "Atualizar";
       this.mostrar = true;
     },

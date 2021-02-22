@@ -12,7 +12,7 @@ export default class RequisitoP {
             })
         } else {
             //altera
-            return this._resource.uupdate({ id: requisito.id }, requisito)
+            return this._resource.update({ id: requisito.id }, requisito)
         }
     }
     consultar(id) {

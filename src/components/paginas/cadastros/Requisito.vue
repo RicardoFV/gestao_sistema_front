@@ -117,8 +117,8 @@
               <td>{{ r.tipo_requisito }}</td>
               <td>{{ r.descricao }}</td>
               <td>
-                <button type="button" class="btn btn-sm btn-primary" @click="consultar(v.id)">Consultar</button>
-                <button type="button" class="btn btn-sm btn-danger" @click="deletar(v.id)">Deletar</button>
+                <button type="button" class="btn btn-sm btn-primary" @click="consultar(r.id)">Consultar</button>
+                <button type="button" class="btn btn-sm btn-danger" @click="deletar(r.id)">Deletar</button>
               </td>
             </tr>
           </tbody>
@@ -171,8 +171,23 @@ export default {
         document.location.reload(true);
       }
     },
-    consultar(e) {},
-    deletar(e) {},
+    consultar(e) {
+      let id = e;
+      // usando o metodo de consulta
+      this.requisitoP.consultar(id).then((r) => (this.requisito = r));
+      this.acao = "Atualizar";
+      this.mostrar = true;
+    },
+    deletar(e) {
+      let id = e;
+      // deletando as informaçoes
+      if (this.requisitoP.deletar(id)) {
+        // leva para a tela de listar
+        this.mostrar = false;
+        // atualiza a lista de usuarios
+        document.location.reload(true);
+      }
+    },
     limparErros() {
       this.erros = [];
     },
