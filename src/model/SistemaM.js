@@ -1,7 +1,8 @@
 // criando a classe
 export default class SistemaM {
 
-    constructor(sessao, nome, descricao, id_versao, imagem, tamanho_imagem, nome_imagem) {
+    constructor(id, sessao, nome, descricao, id_versao, imagem, tamanho_imagem, nome_imagem) {
+        this.id = id
         this.sessao = sessao
         this.nome = nome
         this.descricao = descricao
