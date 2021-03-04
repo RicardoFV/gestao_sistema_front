@@ -133,6 +133,7 @@ import titulo from "../../template/Titulo";
 import botao from "../../template/Botao";
 import Persistencia from "../../../persistencia/RequisitoP";
 import RequisitoM from "../../../model/RequisitoM";
+import PersistenciaAutenticar from "../../../persistencia/AutenticarP";
 
 export default {
   components: { titulo, botao },
@@ -172,20 +173,30 @@ export default {
       }
     },
     consultar(e) {
-      let id = e;
-      // usando o metodo de consulta
-      this.requisitoP.consultar(id).then((r) => (this.requisito = r));
-      this.acao = "Atualizar";
-      this.mostrar = true;
+       if (this.autenticar.verificarSessao(sessionStorage.getItem("usuario_ativo"))) {
+         let id = e;
+        // usando o metodo de consulta
+        this.requisitoP.consultar(id).then((r) => (this.requisito = r));
+        this.acao = "Atualizar";
+        this.mostrar = true;
+      }else{
+        
+      }
+      
     },
     deletar(e) {
-      let id = e;
-      // deletando as informaçoes
-      if (this.requisitoP.deletar(id)) {
-        // leva para a tela de listar
-        this.mostrar = false;
-        // atualiza a lista de usuarios
-        document.location.reload(true);
+
+      if (this.autenticar.verificarSessao(sessionStorage.getItem("usuario_ativo"))) {
+          let id = e;
+          // deletando as informaçoes
+          if (this.requisitoP.deletar(id)) {
+          // leva para a tela de listar
+          this.mostrar = false;
+          // atualiza a lista de usuarios
+          document.location.reload(true);
+        }
+      }else{
+        
       }
     },
     limparErros() {
@@ -214,6 +225,8 @@ export default {
   },
   created() {
     this.requisitoP = new Persistencia(this.$resource);
+    // instancia a autenticacao
+    this.autenticar = new PersistenciaAutenticar(this.$resource);
     this.requisitoP.listar().then(
       (dados) => (this.requisitos = dados),
       (err) => {}

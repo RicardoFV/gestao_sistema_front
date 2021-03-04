@@ -76,12 +76,35 @@
 <script>
 import titulo from "../../template/Titulo";
 import botao from "../../template/Botao";
+import PersistenciaAutenticar from "../../../persistencia/AutenticarP";
 export default {
   components: { titulo, botao },
   data() {
     return {
       mostrar: false
     };
-  }
+  }, 
+  methods: {
+    consultar(e) {
+      if (this.autenticar.verificarSessao(sessionStorage.getItem("usuario_ativo"))) {
+
+      }else{
+        
+      }
+
+    },
+    deletar(e) {
+      if (this.autenticar.verificarSessao(sessionStorage.getItem("usuario_ativo"))) {
+
+      }else{
+        
+      }
+    },
+  },
+
+  created() {
+    // instancia a autenticacao
+    this.autenticar = new PersistenciaAutenticar(this.$resource);
+  },
 };
 </script>

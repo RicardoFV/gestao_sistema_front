@@ -176,6 +176,7 @@ import titulo from "../../template/Titulo";
 import botao from "../../template/Botao";
 import UsuarioM from "../../../model/UsuarioM";
 import Persistencia from "../../../persistencia/UsuarioP";
+import PersistenciaAutenticar from "../../../persistencia/AutenticarP";
 
 export default {
   components: { titulo, botao },
@@ -219,21 +220,29 @@ export default {
     },
     // consulta as informações
     consultar(e) {
-      let id = e;
-      // usando o metodo de consulta
-      this.userP.consultar(id).then((u) => (this.user = u));
-      this.acao = "Atualizar";
-      this.mostrar = true;
+      if (this.autenticar.verificarSessao(sessionStorage.getItem("usuario_ativo"))) {
+          let id = e;
+          // usando o metodo de consulta
+          this.userP.consultar(id).then((u) => (this.user = u));
+          this.acao = "Atualizar";
+          this.mostrar = true;
+      }else{
+
+      }  
     },
     // deleta as informações
     deletar(e) {
-      let id = e;
+      if (this.autenticar.verificarSessao(sessionStorage.getItem("usuario_ativo"))) {
+          let id = e;
       // deletando as informaçoes 
-      if (this.userP.deletar(id)) {
-        // leva para a tela de listar
-        this.mostrar = false;
-        // atualiza a lista de usuarios
-        document.location.reload(true);
+        if (this.userP.deletar(id)) {
+          // leva para a tela de listar
+          this.mostrar = false;
+          // atualiza a lista de usuarios
+          document.location.reload(true);
+        }
+      }else{
+
       }
     },
 
@@ -271,6 +280,8 @@ export default {
   created() {
     // instancia a persistencia
     this.userP = new Persistencia(this.$resource);
+    // instancia a autenticacao
+    this.autenticar = new PersistenciaAutenticar(this.$resource);
     // chama o metodo listar
     this.userP.listar().then(
       (dados) => (this.usuarios = dados),
