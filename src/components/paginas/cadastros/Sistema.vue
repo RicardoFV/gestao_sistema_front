@@ -113,8 +113,8 @@
           <tbody v-for="s of sistemas">
             <tr class="text-center">
               <td> {{ s.id }} </td>
-              <td> {{ s.name }} </td>
-              <td> {{ s.id_versao }} </td>
+              <td> {{ s.nome_sistema }} </td>
+              <td> {{ s.nome_versao }} </td>
               <td>
                 <button type="button" class="btn btn-sm btn-primary" @click="consultar(v.id)">Consultar</button>
                 <button type="button" class="btn btn-sm btn-danger" @click="deletar(v.id)">Deletar</button>
@@ -198,7 +198,7 @@ export default {
       return dados;
     },
     consultar(e) {
-      if (this.autenticar.verificarSessao(sessionStorage.getItem("usuario_ativo"))) {
+      if (this.autenticar.verificarSessao(sessionStorage.getItem("usuario_ativo")) ) {
 
       }else{
         
@@ -214,6 +214,7 @@ export default {
     },
 
     novo() {
+      //console.log(this.sistemas)
       this.acao = "Cadastrar";
       this.limparDados();
       this.mostrar = !this.mostrar;

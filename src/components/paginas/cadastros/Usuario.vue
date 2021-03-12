@@ -200,13 +200,21 @@ export default {
     cadastrar() {
       this.limparErros();
       if (this.validar() === true) {
-        this.userP.cadastrar(this.user);
-        // limpa as informaçoes
-        this.limparDados();
-        // leva para a tela de listar
-        this.mostrar = false;
-        // atualiza a lista de usuarios
-        document.location.reload(true);
+        this.user.sessao = sessionStorage.getItem("usuario_ativo");
+        if (this.user.sessao != null) {
+          let teste = this.user.sessao
+          alert(teste)
+          
+          this.userP.cadastrar(this.user);
+          // limpa as informaçoes
+          this.limparDados();
+          // leva para a tela de listar
+          this.mostrar = false;
+          // atualiza a lista de usuarios
+          document.location.reload(true);
+        }else{
+            this.$router.push("/")
+        }
       }
     },
     // limpa os erros
@@ -220,35 +228,36 @@ export default {
     },
     // consulta as informações
     consultar(e) {
-      if (this.autenticar.verificarSessao(sessionStorage.getItem("usuario_ativo"))) {
-          let id = e;
-          // usando o metodo de consulta
-          this.userP.consultar(id).then((u) => (this.user = u));
-          this.acao = "Atualizar";
-          this.mostrar = true;
-      }else{
-
-      }  
+      if (
+        this.autenticar.verificarSessao(sessionStorage.getItem("usuario_ativo"))
+      ) {
+        let id = e;
+        // usando o metodo de consulta
+        this.userP.consultar(id).then((u) => (this.user = u));
+        this.acao = "Atualizar";
+        this.mostrar = true;
+      } else {
+      }
     },
     // deleta as informações
     deletar(e) {
-      if (this.autenticar.verificarSessao(sessionStorage.getItem("usuario_ativo"))) {
-          let id = e;
-      // deletando as informaçoes 
+      if (
+        this.autenticar.verificarSessao(sessionStorage.getItem("usuario_ativo"))
+      ) {
+        let id = e;
+        // deletando as informaçoes
         if (this.userP.deletar(id)) {
           // leva para a tela de listar
           this.mostrar = false;
           // atualiza a lista de usuarios
           document.location.reload(true);
         }
-      }else{
-
+      } else {
       }
     },
 
     // valida as informaçoes
     validar() {
-     
       if ($("#name").val() === "" || $("#name").val() === null) {
         this.erros.push("O campo nome nao pode ser vazio !");
         dados = false;

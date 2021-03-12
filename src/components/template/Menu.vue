@@ -65,12 +65,17 @@
 </template>
 
 <script>
+import PersistenciaAutenticar from "../../persistencia/AutenticarP";
 export default {
   computed: {
     isTelaLogin() {
-      return this.$route.path !== "/" && this.$route.path !== "/sair";
+      return this.$route.path !== "/" && this.$route.path !== "/sair" && this.autenticar.verificarSessao(sessionStorage.getItem("usuario_ativo") === '');
     },
   },
+  created() {
+    // instancia a autenticacao
+    this.autenticar = new PersistenciaAutenticar(this.$resource);
+  }
 };
 </script>
 

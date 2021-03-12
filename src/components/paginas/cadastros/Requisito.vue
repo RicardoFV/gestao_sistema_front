@@ -113,7 +113,7 @@
           <tbody v-for="r of requisitos">
             <tr class="text-center">
               <td>{{ r.id }}</td>
-              <td>{{ r.name }}</td>
+              <td>{{ r.nome }}</td>
               <td>{{ r.tipo_requisito }}</td>
               <td>{{ r.descricao }}</td>
               <td>
