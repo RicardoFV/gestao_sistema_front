@@ -112,12 +112,24 @@
           </thead>
           <tbody v-for="s of sistemas">
             <tr class="text-center">
-              <td> {{ s.id }} </td>
-              <td> {{ s.nome_sistema }} </td>
-              <td> {{ s.nome_versao }} </td>
+              <td>{{ s.id }}</td>
+              <td>{{ s.nome_sistema }}</td>
+              <td>{{ s.nome_versao }}</td>
               <td>
-                <button type="button" class="btn btn-sm btn-primary" @click="consultar(v.id)">Consultar</button>
-                <button type="button" class="btn btn-sm btn-danger" @click="deletar(v.id)">Deletar</button>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-primary"
+                  @click="consultar(v.id)"
+                >
+                  Consultar
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-danger"
+                  @click="deletar(v.id)"
+                >
+                  Deletar
+                </button>
               </td>
             </tr>
           </tbody>
@@ -160,21 +172,25 @@ export default {
       // valida se o formulario foi preenchido corretamente
       if (this.validar() == true) {
         this.sistema.sessao = sessionStorage.getItem("usuario_ativo");
-        var arquivo = new FormData();
-        arquivo.append("arquivo", this.file);
-        arquivo.append("name", this.sistema.name);
-        arquivo.append("descricao", this.sistema.descricao);
-        arquivo.append("id_versao", this.sistema.id_versao);
-        arquivo.append("sessao", this.sistema.sessao);
-        // se tudo ok, insere o registro 
-        this.sistemaP.cadastrar(arquivo);
+        if (this.sistema.sessao != null) {
+          var arquivo = new FormData();
+          arquivo.append("arquivo", this.file);
+          arquivo.append("name", this.sistema.name);
+          arquivo.append("descricao", this.sistema.descricao);
+          arquivo.append("id_versao", this.sistema.id_versao);
+          arquivo.append("sessao", this.sistema.sessao);
+          // se tudo ok, insere o registro
+          this.sistemaP.cadastrar(arquivo);
 
-        // limpa as informaçoes
-        this.limparDados();
-        // leva para a tela de listar
-        this.mostrar = false;
-        // atualiza a lista de usuarios
-        document.location.reload(true);
+          // limpa as informaçoes
+          this.limparDados();
+          // leva para a tela de listar
+          this.mostrar = false;
+          // atualiza a lista de usuarios
+          document.location.reload(true);
+        } else {
+          this.$router.push("/");
+        }
       }
     },
 
@@ -198,18 +214,16 @@ export default {
       return dados;
     },
     consultar(e) {
-      if (this.autenticar.verificarSessao(sessionStorage.getItem("usuario_ativo")) ) {
+      if (this.autenticar.verificarSessao(sessionStorage.getItem("usuario_ativo"))) {
 
-      }else{
-        
+        }else {
+          this.$router.push("/")
       }
-
     },
     deletar(e) {
       if (this.autenticar.verificarSessao(sessionStorage.getItem("usuario_ativo"))) {
-
-      }else{
-        
+      } else {
+        this.$router.push("/")
       }
     },
 
@@ -230,6 +244,7 @@ export default {
   },
 
   created() {
+    
     // instancia as persistencia
     this.sistemaP = new PersistenciaSistema(this.$resource);
     this.versaoP = new PersistenciaVersao(this.$resource);

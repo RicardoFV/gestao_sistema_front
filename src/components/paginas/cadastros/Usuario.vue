@@ -202,8 +202,6 @@ export default {
       if (this.validar() === true) {
         this.user.sessao = sessionStorage.getItem("usuario_ativo");
         if (this.user.sessao != null) {
-          let teste = this.user.sessao
-          alert(teste)
           
           this.userP.cadastrar(this.user);
           // limpa as informaçoes
@@ -237,6 +235,7 @@ export default {
         this.acao = "Atualizar";
         this.mostrar = true;
       } else {
+        this.$router.push("/")
       }
     },
     // deleta as informações
@@ -253,6 +252,7 @@ export default {
           document.location.reload(true);
         }
       } else {
+        this.$router.push("/")
       }
     },
 
@@ -287,10 +287,12 @@ export default {
     },
   },
   created() {
+
     // instancia a persistencia
     this.userP = new Persistencia(this.$resource);
     // instancia a autenticacao
     this.autenticar = new PersistenciaAutenticar(this.$resource);
+    
     // chama o metodo listar
     this.userP.listar().then(
       (dados) => (this.usuarios = dados),

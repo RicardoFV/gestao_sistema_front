@@ -169,7 +169,7 @@ export default {
         this.acao = "Atualizar";
         this.mostrar = true;
       }else{
-        
+        this.$router.push("/")
       }
       
     },
@@ -184,7 +184,7 @@ export default {
           document.location.reload(true);
         }
       } else {
-        // outra acao
+        this.$router.push("/")
       }
     },
   },
@@ -194,11 +194,14 @@ export default {
 
     // instancia a autenticacao
     this.autenticar = new PersistenciaAutenticar(this.$resource);
+
     // listar
     this.versaoP.listar().then(
       (dados) => (this.versoes = dados),
       (err) => {}
     );
+
+
   },
 };
 </script>

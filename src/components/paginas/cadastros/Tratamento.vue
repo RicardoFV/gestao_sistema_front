@@ -89,7 +89,7 @@ export default {
       if (this.autenticar.verificarSessao(sessionStorage.getItem("usuario_ativo"))) {
 
       }else{
-        
+        this.$router.push("/")
       }
 
     },
@@ -97,12 +97,13 @@ export default {
       if (this.autenticar.verificarSessao(sessionStorage.getItem("usuario_ativo"))) {
 
       }else{
-        
+        this.$router.push("/")
       }
     },
   },
 
   created() {
+
     // instancia a autenticacao
     this.autenticar = new PersistenciaAutenticar(this.$resource);
   },

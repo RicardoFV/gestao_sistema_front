@@ -22,7 +22,7 @@ export default class AutenticarP {
         // metodo que verifica a sessao
     verificarSessao(sessao) {
         return this._resource.get({ sessao }).then(resposta => resposta.json(), err => {
-            console.log(err)
+            //console.log(err)
         })
     }
 

@@ -66,10 +66,19 @@
 
 <script>
 import PersistenciaAutenticar from "../../persistencia/AutenticarP";
+import UsuarioM from "../../model/UsuarioM"
 export default {
+  data() {
+    return {
+      
+      user: new UsuarioM(),
+    
+    };
+  },
   computed: {
     isTelaLogin() {
-      return this.$route.path !== "/" && this.$route.path !== "/sair" && this.autenticar.verificarSessao(sessionStorage.getItem("usuario_ativo") === '');
+      this.user.sessao = sessionStorage.getItem("usuario_ativo");
+      return this.$route.path !== "/" && this.$route.path !== "/sair" && this.user.sessao !== null;
     },
   },
   created() {

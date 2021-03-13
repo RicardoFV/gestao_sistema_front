@@ -163,40 +163,44 @@ export default {
       this.limparErros();
       if (this.validar() == true) {
         this.requisito.sessao = sessionStorage.getItem("usuario_ativo");
-        this.requisitoP.cadastrar(this.requisito);
-        // limpa as informaçoes
-        this.limparDados();
-        // leva para a tela de listar
-        this.mostrar = false;
-        // atualiza a lista de usuarios
-        document.location.reload(true);
+        if (this.requisito.sessao != null) {
+          this.requisitoP.cadastrar(this.requisito);
+          // limpa as informaçoes
+          this.limparDados();
+          // leva para a tela de listar
+          this.mostrar = false;
+          // atualiza a lista de usuarios
+          document.location.reload(true);
+        } else {
+          this.$router.push("/");
+        }
       }
     },
     consultar(e) {
-       if (this.autenticar.verificarSessao(sessionStorage.getItem("usuario_ativo"))) {
-         let id = e;
+      if (
+        this.autenticar.verificarSessao(sessionStorage.getItem("usuario_ativo"))
+      ) {
+        let id = e;
         // usando o metodo de consulta
         this.requisitoP.consultar(id).then((r) => (this.requisito = r));
         this.acao = "Atualizar";
         this.mostrar = true;
-      }else{
-        
+      } else {
       }
-      
     },
     deletar(e) {
-
-      if (this.autenticar.verificarSessao(sessionStorage.getItem("usuario_ativo"))) {
-          let id = e;
-          // deletando as informaçoes
-          if (this.requisitoP.deletar(id)) {
+      if (
+        this.autenticar.verificarSessao(sessionStorage.getItem("usuario_ativo"))
+      ) {
+        let id = e;
+        // deletando as informaçoes
+        if (this.requisitoP.deletar(id)) {
           // leva para a tela de listar
           this.mostrar = false;
           // atualiza a lista de usuarios
           document.location.reload(true);
         }
-      }else{
-        
+      } else {
       }
     },
     limparErros() {
@@ -227,10 +231,17 @@ export default {
     this.requisitoP = new Persistencia(this.$resource);
     // instancia a autenticacao
     this.autenticar = new PersistenciaAutenticar(this.$resource);
-    this.requisitoP.listar().then(
-      (dados) => (this.requisitos = dados),
-      (err) => {}
-    );
+
+    if (
+      !this.autenticar.verificarSessao(sessionStorage.getItem("usuario_ativo"))
+    ) {
+      this.requisitoP.listar().then(
+        (dados) => (this.requisitos = dados),
+        (err) => {}
+      );
+    } else {
+      this.$router.push("/");
+    }
   },
 };
 </script>
