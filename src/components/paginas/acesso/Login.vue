@@ -1,13 +1,13 @@
 <template>
   <div class="container">
-    <div class="row">
-      <div class="col-sm-12 row d-flex justify-content-center login ml-1">
+    <div class="row mt-5">
+      <div class="col-sm-12 row d-flex justify-content-center login ml-1 mt-5">
         <div class="card">
           <div class="card-header">
             <titulo titulo="Bem vindo ao Gestão de Sistemas" />
           </div>
           <div class="card-body">
-            <form @submit.prevent="autenticar">
+            <form @submit.prevent="autenticar()">
               <div class="form-row">
                 <div class="form-group col-sm-12">
                   <label for="email">E-mail</label>
@@ -57,12 +57,14 @@ import titulo from "../../template/Titulo";
 import botao from "../../template/Botao";
 import Persistencia from "../../../persistencia/AutenticarP";
 import Autenticacao from "../../../model/AutenticacaoM";
+import AutenticacaoM from '../../../model/AutenticacaoM';
 
 export default {
   components: { titulo, botao },
   data() {
     return {
       auth: new Autenticacao(),
+      auth2:new AutenticacaoM()
     };
   },
   methods: {

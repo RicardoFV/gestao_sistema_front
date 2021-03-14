@@ -28,7 +28,7 @@ export default class SistemaP {
     }
     listar() {
         return this._resource.query().then(resposta => resposta.json(), err => {
-            console.log(err)
+            //console.log(err)
         })
     }
 }

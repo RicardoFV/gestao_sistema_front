@@ -107,7 +107,6 @@ import titulo from "../../template/Titulo";
 import botao from "../../template/Botao";
 import VersaoM from "../../../model/VersaoM";
 import Persistencia from "../../../persistencia/VersaoP";
-import PersistenciaAutenticar from "../../../persistencia/AutenticarP";
 
 export default {
   components: { titulo, botao },
@@ -140,8 +139,7 @@ export default {
       this.limparErros();
       if (this.validar() == true) {
         this.versao.sessao = sessionStorage.getItem("usuario_ativo");
-        console.log(this.versao);
-
+       
         this.versaoP.cadastrar(this.versao);
         // limpa as informaçoes
         this.limparDados();
@@ -162,19 +160,20 @@ export default {
     },
 
     consultar(e) {
-      if (this.autenticar.verificarSessao(sessionStorage.getItem("usuario_ativo"))) {
-          let id = e;
+      let sessao = sessionStorage.getItem("usuario_ativo");
+      if (sessao != null) {
+        let id = e;
         // usando o metodo de consulta
         this.versaoP.consultar(id).then((v) => (this.versao = v));
         this.acao = "Atualizar";
         this.mostrar = true;
-      }else{
-        this.$router.push("/")
+      } else {
+        this.$router.push("/");
       }
-      
     },
     deletar(e) {
-      if (this.autenticar.verificarSessao(sessionStorage.getItem("usuario_ativo"))) {
+      let sessao = sessionStorage.getItem("usuario_ativo");
+      if (sessao != null) {
         let id = e;
         // deletando as informaçoes
         if (this.versaoP.deletar(id)) {
@@ -184,24 +183,24 @@ export default {
           document.location.reload(true);
         }
       } else {
-        this.$router.push("/")
+        this.$router.push("/");
       }
     },
   },
   created() {
-    // instancia a persistencia
-    this.versaoP = new Persistencia(this.$resource);
+    let sessao = sessionStorage.getItem("usuario_ativo");
 
-    // instancia a autenticacao
-    this.autenticar = new PersistenciaAutenticar(this.$resource);
-
-    // listar
-    this.versaoP.listar().then(
-      (dados) => (this.versoes = dados),
-      (err) => {}
-    );
-
-
+    if (sessao != null) {
+      // instancia a persistencia
+      this.versaoP = new Persistencia(this.$resource);
+      // listar
+      this.versaoP.listar().then(
+        (dados) => (this.versoes = dados),
+        (err) => {}
+      );
+    } else {
+      this.$router.push("/");
+    }
   },
 };
 </script>

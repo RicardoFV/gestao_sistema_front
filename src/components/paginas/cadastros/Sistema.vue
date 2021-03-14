@@ -119,14 +119,14 @@
                 <button
                   type="button"
                   class="btn btn-sm btn-primary"
-                  @click="consultar(v.id)"
+                  @click="consultar(s.id)"
                 >
                   Consultar
                 </button>
                 <button
                   type="button"
                   class="btn btn-sm btn-danger"
-                  @click="deletar(v.id)"
+                  @click="deletar(s.id)"
                 >
                   Deletar
                 </button>
@@ -145,7 +145,7 @@ import botao from "../../template/Botao";
 import PersistenciaSistema from "../../../persistencia/SistemaP";
 import PersistenciaVersao from "../../../persistencia/VersaoP";
 import Sistema from "../../../model/SistemaM";
-import PersistenciaAutenticar from "../../../persistencia/AutenticarP";
+
 export default {
   components: { titulo, botao },
   data() {
@@ -214,16 +214,32 @@ export default {
       return dados;
     },
     consultar(e) {
-      if (this.autenticar.verificarSessao(sessionStorage.getItem("usuario_ativo"))) {
+      let sessao = sessionStorage.getItem("usuario_ativo");
 
-        }else {
-          this.$router.push("/")
+      if (sessao != null) {
+        let id = e;
+        // usando o metodo de consulta
+        this.sistemaP.consultar(id).then((s) => (this.sistema = s));
+        this.acao = "Atualizar";
+        this.mostrar = true;
+      } else {
+        this.$router.push("/");
       }
     },
     deletar(e) {
-      if (this.autenticar.verificarSessao(sessionStorage.getItem("usuario_ativo"))) {
+      let sessao = sessionStorage.getItem("usuario_ativo");
+
+      if (sessao != null) {
+        let id = e;
+        // deletando as informaçoes
+        if (this.sistemaP.deletar(id)) {
+          // leva para a tela de listar
+          this.mostrar = false;
+          // atualiza a lista de usuarios
+          document.location.reload(true);
+        }
       } else {
-        this.$router.push("/")
+        this.$router.push("/");
       }
     },
 
@@ -244,28 +260,31 @@ export default {
   },
 
   created() {
-    
-    // instancia as persistencia
-    this.sistemaP = new PersistenciaSistema(this.$resource);
-    this.versaoP = new PersistenciaVersao(this.$resource);
-    // instancia a autenticacao
-    this.autenticar = new PersistenciaAutenticar(this.$resource);
+    let sessao = sessionStorage.getItem("usuario_ativo");
 
-    // preenchendo a versao
-    this.versaoP.listar().then(
-      (v) => (this.versoes = v),
-      (err) => {
-        err.message();
-      }
-    );
+    if (sessao != null) {
+      // instancia as persistencia
+      this.sistemaP = new PersistenciaSistema(this.$resource);
+      this.versaoP = new PersistenciaVersao(this.$resource);
 
-    // preenchendo o sistema
-    this.sistemaP.listar().then(
-      (s) => (this.sistemas = s),
-      (err) => {
-        err.message();
-      }
-    );
+      // preenchendo a versao
+      this.versaoP.listar().then(
+        (v) => (this.versoes = v),
+        (err) => {
+          err.message();
+        }
+      );
+
+      // preenchendo o sistema
+      this.sistemaP.listar().then(
+        (s) => (this.sistemas = s),
+        (err) => {
+          err.message();
+        }
+      );
+    } else {
+      this.$router.push("/");
+    }
   },
 };
 </script>
